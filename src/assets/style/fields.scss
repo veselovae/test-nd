@@ -1,0 +1,39 @@
+.field {
+    display: flex;
+    flex-direction: column;
+
+    label {
+        position: relative;
+        left: 24px;
+        margin-bottom: 8px;
+    }
+
+    input {
+        padding: 0 28px;
+        border-radius: 36px;
+        border: 2px solid var(--white);
+        height: 72px;
+        font-size: var(--text-small-size);
+        color: var(--dark);
+
+        &:hover,
+        &:active,
+        &:focus {
+            border: 2px solid var(--green-light);
+            outline: none;
+        }
+    }
+
+    input::placeholder {
+        font-size: var(--text-small-size);
+        font-weight: var(--text-small-weight);
+        color: var(--gray);
+    }
+
+    .field-error {
+        color: #ff7461;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-top: 8px;
+    }
+}

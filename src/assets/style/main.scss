@@ -1,0 +1,11 @@
+@import "./base.css";
+@import url("@/assets/style/modals.scss");
+@import url("@/assets/style/fields.scss");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+}
