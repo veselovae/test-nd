@@ -1,12 +1,12 @@
 import LoginModal from "@/components/modal/LoginModal.vue";
 
-import { ref } from "vue";
+import { shallowRef } from "vue";
 import { defineStore } from "pinia";
 
 export const useSwitchModalComponent = defineStore(
   "switchModalComponent",
   () => {
-    const modalComponent = ref(LoginModal);
+    const modalComponent = shallowRef(LoginModal);
 
     const switchModalComponent = (component) =>
       (modalComponent.value = component);

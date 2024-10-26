@@ -22,16 +22,6 @@ const modal = useShowModal();
 </template>
 
 <style scoped>
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding-left: 160px;
-  padding-right: 160px;
-  height: 136px;
-}
-
 .login-btn {
   gap: 12px;
 }

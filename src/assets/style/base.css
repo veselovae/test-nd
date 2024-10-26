@@ -27,4 +27,7 @@
     --text-normal-weight: 500;
     --text-small-weight: 400;
     --text-small-bold-weight: 700;
+
+    /* SHADOW */
+    --shadow: 0px 15px 46px -10px #00000099;
 }

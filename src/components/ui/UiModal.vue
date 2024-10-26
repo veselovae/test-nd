@@ -3,19 +3,20 @@ import CloseIcon from "../icons/CloseIcon.vue";
 import UiButton from "./UiButton.vue";
 
 import { useShowModal } from "@/stores/showModal";
-import { useSwitchModalComponent } from "@/stores/switchModalComponent";
+
+const props = defineProps<{ isNoteModal?: boolean }>();
 
 const modal = useShowModal();
-const modalComponentStore = useSwitchModalComponent();
 </script>
 
 <template>
-  <div class="modal-wrapper">
-    <div class="modal">
+  <div class="modal-wrapper" :class="{ inactive: modal.showModal }">
+    <div class="modal" :class="{ 'note-modal-wrapper': props.isNoteModal }">
       <UiButton class="close-btn" @click="modal.toggleShowModal">
         <CloseIcon />
       </UiButton>
-      <component :is="modalComponentStore.modalComponent" />
+      <slot />
+      <!-- <component :is="modalComponentStore.modalComponent" /> -->
     </div>
   </div>
 </template>
@@ -49,7 +50,7 @@ const modalComponentStore = useSwitchModalComponent();
     background-color: var(--dark-middle);
     border-radius: 40px;
     padding: 80px;
-    max-width: 780px;
+    max-width: calc(780px + 80px);
     width: 100%;
     animation: appearanceModal 0.4s 1;
     display: flex;

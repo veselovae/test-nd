@@ -8,7 +8,8 @@
         margin-bottom: 8px;
     }
 
-    input {
+    input,
+    textarea {
         padding: 0 28px;
         border-radius: 36px;
         border: 2px solid var(--white);
@@ -24,16 +25,27 @@
         }
     }
 
-    input::placeholder {
+    input::placeholder,
+    textarea::placeholder {
         font-size: var(--text-small-size);
         font-weight: var(--text-small-weight);
         color: var(--gray);
     }
 
-    .field-error {
-        color: #ff7461;
-        padding-left: 20px;
-        padding-right: 20px;
+    .error-and-char {
         margin-top: 8px;
+        display: flex;
+        justify-content: space-between;
+
+        .field-error {
+            color: #ff7461;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .num-of-char {
+            margin-right: 0;
+            margin-left: auto;
+        }
     }
 }

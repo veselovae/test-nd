@@ -1,16 +1,22 @@
 <script setup lang="ts">
 import WelcomePage from "./components/pages/WelcomePage/WelcomePage.vue";
-import UiModal from "./components/ui/UiModal.vue";
+import NotesPage from "./components/pages/NotesPage/NotesPage.vue";
+// import UiModal from "./components/ui/UiModal.vue";
 
-import { useShowModal } from "@/stores/showModal";
+// // import { useShowModal } from "@/stores/showModal";
+// import { useSwitchModalComponent } from "./stores/switchModalComponent";
 
-const isModal = useShowModal();
+// // const isModal = useShowModal();
+// const modalComponentStore = useSwitchModalComponent();
 </script>
 
 <template>
   <div class="app-wrapper">
-    <UiModal :class="{ inactive: isModal.showModal }" />
-    <WelcomePage />
+    <!-- <UiModal>
+      <component :is="modalComponentStore.modalComponent" />
+    </UiModal> -->
+    <!-- <WelcomePage /> -->
+    <NotesPage />
   </div>
 </template>
 

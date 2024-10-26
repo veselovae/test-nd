@@ -13,10 +13,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(["update:modelValue"]);
-
-function updateValue(value: string) {
-  emit("update:modelValue", value);
-}
+const updateValue = (value: string) => emit("update:modelValue", value);
 </script>
 
 <template>
@@ -24,17 +21,25 @@ function updateValue(value: string) {
     <label>
       <slot />
     </label>
-    <input
+    <textarea
       v-bind="$attrs"
       :value="props.modelValue"
       @input="updateValue($event.target.value)"
     />
     <div class="error-and-char">
       <div class="field-error error" v-if="props.error">
-        <slot name="errorText" />
+        Поле не может быть пустым
       </div>
 
-      <div class="num-of-char" v-if="props.charBox">{{ props.length }}/100</div>
+      <div class="num-of-char" v-if="props.charBox">{{ props.length }}/500</div>
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+textarea {
+  padding: 16px 28px;
+  min-height: 168px;
+  resize: none;
+}
+</style>
