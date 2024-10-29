@@ -5,55 +5,73 @@ import UiButton from "../ui/UiButton.vue";
 
 import { useNotes } from "@/stores/notes";
 import { useShowModal } from "@/stores/showModal";
-import { onBeforeUnmount, ref, watch } from "vue";
+import { ref, watch } from "vue";
+import { getCookie } from "@/functions/cookieFunctions";
+import { useRouter } from "vue-router";
 
-import { v4 as uuid } from "uuid";
+import {
+  getRequest,
+  processRequestResults,
+  resetFieldsValue,
+} from "@/functions/requests";
+import { type IRequestResults } from "@/interfaces/requests";
+import { type INewNote } from "@/interfaces/modalFields";
+
+const router = useRouter();
 
 const notesStore = useNotes();
 const modalStore = useShowModal();
 
-const newNote = ref({
-  id: "",
-  name: "",
-  text: "",
+const newNote = ref<INewNote>({
+  title: "",
+  content: "",
 });
 
-const errorName = ref<boolean>(false);
-const errorText = ref<boolean>(false);
+const addingNoteResults = ref<null | IRequestResults>(null);
 
-const resetNewNote = (note) => {
-  note.value.name = "";
-  note.value.text = "";
-  note.value.id = "";
-};
-const addNewNote = (note) => {
-  if (!newNote.value.name) {
-    errorName.value = true;
-  }
-  if (!newNote.value.text) {
-    errorText.value = true;
-  } else {
-    newNote.value.id = uuid();
-    notesStore.addNote({ ...note });
-    resetNewNote(newNote);
+const addNewNote = async () => {
+  const responseJson = await getRequest(
+    "notes",
+    "post",
+    { Authorization: "Bearer " + getCookie("token") },
+    newNote.value
+  );
+
+  const filter = {
+    title: ["заголовок"],
+    content: ["содержимое"],
+  };
+
+  addingNoteResults.value = processRequestResults(responseJson, filter);
+
+  if (addingNoteResults.value?.fulfilledValue?.id) {
+    // TODO: check adding to notes strore
+    notesStore.addNote(addingNoteResults.value.fulfilledValue);
+    resetFieldsValue(newNote);
     modalStore.toggleShowModal();
+  }
+
+  if (addingNoteResults.value?.totalError === "Требуется авторизация") {
+    resetFieldsValue(newNote);
+    modalStore.toggleShowModal();
+    router.push("/");
   }
 };
 
 watch(
-  () => newNote.value.name,
+  () => newNote.value.title,
   (newVal, oldVal) => {
     if (oldVal === "" && newVal !== "") {
-      errorName.value = false;
+      delete addingNoteResults.value?.filteredErrors?.title;
     }
   }
 );
 
 watch(
-  () => newNote.value.text,
+  () => newNote.value.content,
   (newVal, oldVal) => {
     if (oldVal === "" && newVal !== "") {
-      errorText.value = false;
+      delete addingNoteResults.value?.filteredErrors?.content;
     }
   }
 );
@@ -62,16 +80,12 @@ watch(
   () => modalStore.showModal,
   () => {
     if (!modalStore.showModal) {
-      errorName.value = false;
-      errorText.value = false;
+      resetFieldsValue(newNote);
+      delete addingNoteResults.value?.filteredErrors?.title;
+      delete addingNoteResults.value?.filteredErrors?.content;
     }
   }
 );
-
-onBeforeUnmount(() => {
-  errorName.value = false;
-  errorText.value = false;
-});
 </script>
 
 <template>
@@ -81,31 +95,34 @@ onBeforeUnmount(() => {
     <div class="inputs-box">
       <UiTextField
         placeholder="Текст заметки"
-        v-model.trim="newNote.name"
-        maxlength="100"
-        :error="errorName"
-        :length="newNote.name.length"
-        :charBox="true"
+        v-model.trim="newNote.title"
+        maxlength="64"
+        :error="!!addingNoteResults?.filteredErrors?.title?.length"
+        :length="newNote.title.length"
+        :charBox="64"
       >
         Название заметки
-        <template v-slot:errorText>Поле не может быть пустым</template>
+        <template v-slot:errorText>{{
+          addingNoteResults.filteredErrors?.title[0]
+        }}</template>
       </UiTextField>
       <UiTextareaField
         placeholder="Введите текст"
-        v-model.trim="newNote.text"
-        maxlength="500"
-        :error="errorText"
-        :length="newNote.text.length"
-        :charBox="true"
+        v-model.trim="newNote.content"
+        maxlength="255"
+        :error="!!addingNoteResults?.filteredErrors?.content?.length"
+        :length="newNote.content.length"
+        :charBox="255"
       >
         Текст заметки
+        <template v-slot:errorText>{{
+          addingNoteResults?.filteredErrors?.content[0]
+        }}</template>
       </UiTextareaField>
     </div>
 
     <div class="add-btn-wrapper">
-      <UiButton class="add-note-btn" @click="addNewNote(newNote)">
-        Добавить
-      </UiButton>
+      <UiButton class="add-note-btn" @click="addNewNote"> Добавить </UiButton>
     </div>
   </div>
 </template>

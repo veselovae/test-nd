@@ -3,8 +3,8 @@ import { defineStore } from "pinia";
 
 interface INote {
   id: number;
-  name: string;
-  text: string;
+  title: string;
+  content: string;
 }
 
 export const useNotes = defineStore("notes", () => {
@@ -18,5 +18,9 @@ export const useNotes = defineStore("notes", () => {
     );
   };
 
-  return { notes, addNote, deleteNote };
+  const setNotes = (uploadedNotes: INote[]) => {
+    notes.value = uploadedNotes;
+  };
+
+  return { notes, addNote, deleteNote, setNotes };
 });

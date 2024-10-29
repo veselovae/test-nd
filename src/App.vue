@@ -1,22 +1,15 @@
 <script setup lang="ts">
-import WelcomePage from "./components/pages/WelcomePage/WelcomePage.vue";
-import NotesPage from "./components/pages/NotesPage/NotesPage.vue";
-// import UiModal from "./components/ui/UiModal.vue";
+// import WelcomePage from "./components/pages/WelcomePage/WelcomePage.vue";
+// import NotesPage from "./components/pages/NotesPage/NotesPage.vue";
 
-// // import { useShowModal } from "@/stores/showModal";
-// import { useSwitchModalComponent } from "./stores/switchModalComponent";
-
-// // const isModal = useShowModal();
-// const modalComponentStore = useSwitchModalComponent();
+import { RouterView } from "vue-router";
 </script>
 
 <template>
   <div class="app-wrapper">
-    <!-- <UiModal>
-      <component :is="modalComponentStore.modalComponent" />
-    </UiModal> -->
+    <RouterView />
     <!-- <WelcomePage /> -->
-    <NotesPage />
+    <!-- <NotesPage /> -->
   </div>
 </template>
 

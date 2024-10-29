@@ -31,6 +31,7 @@ const emit = defineEmits(["deleteNote"]);
   background-color: var(--green-light);
   border-radius: 20px;
   position: relative;
+  box-shadow: var(--shadow);
 
   &::after {
     content: "";
@@ -77,8 +78,8 @@ const emit = defineEmits(["deleteNote"]);
     max-height: calc(480px - 72px - 72px);
     overflow: hidden;
     text-overflow: ellipsis;
-    -webkit-line-clamp: 9;
-    line-clamp: 9;
+    -webkit-line-clamp: 7;
+    line-clamp: 7;
     -webkit-box-orient: vertical;
     display: -webkit-box;
   }

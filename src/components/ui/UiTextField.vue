@@ -9,7 +9,7 @@ const props = defineProps<{
   modelValue: string;
   error: boolean;
   length?: number;
-  charBox?: boolean;
+  charBox?: number;
 }>();
 
 const emit = defineEmits(["update:modelValue"]);
@@ -34,7 +34,9 @@ function updateValue(value: string) {
         <slot name="errorText" />
       </div>
 
-      <div class="num-of-char" v-if="props.charBox">{{ props.length }}/100</div>
+      <div class="num-of-char" v-if="props.charBox">
+        {{ props.length }}/{{ props.charBox }}
+      </div>
     </div>
   </div>
 </template>

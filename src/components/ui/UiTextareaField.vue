@@ -9,7 +9,7 @@ const props = defineProps<{
   modelValue: string;
   error: boolean;
   length?: number;
-  charBox?: boolean;
+  charBox?: number;
 }>();
 
 const emit = defineEmits(["update:modelValue"]);
@@ -28,10 +28,12 @@ const updateValue = (value: string) => emit("update:modelValue", value);
     />
     <div class="error-and-char">
       <div class="field-error error" v-if="props.error">
-        Поле не может быть пустым
+        <slot name="errorText" />
       </div>
 
-      <div class="num-of-char" v-if="props.charBox">{{ props.length }}/500</div>
+      <div class="num-of-char" v-if="props.charBox">
+        {{ props.length }}/{{ props.charBox }}
+      </div>
     </div>
   </div>
 </template>

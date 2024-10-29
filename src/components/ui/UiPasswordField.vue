@@ -1,8 +1,8 @@
-<!-- <script lang="ts">
+<script lang="ts">
 export default {
   inheritAttrs: false,
 };
-</script> -->
+</script>
 
 <script lang="ts" setup>
 import OnPasswordIcon from "../icons/OnPasswordIcon.vue";
@@ -15,6 +15,14 @@ const getPasswordType = computed(() =>
   showPassword.value ? "password" : "text"
 );
 const toggleShowPassword = () => (showPassword.value = !showPassword.value);
+
+const props = defineProps<{
+  modelValue: string;
+  error: boolean;
+}>();
+
+const emit = defineEmits(["update:modelValue"]);
+const updateValue = (value: string) => emit("update:modelValue", value);
 </script>
 
 <template>
@@ -23,13 +31,21 @@ const toggleShowPassword = () => (showPassword.value = !showPassword.value);
       <slot />
     </label>
     <div class="input-box">
-      <input :type="getPasswordType" placeholder="Введите пароль" />
+      <input
+        :type="getPasswordType"
+        placeholder="Введите пароль"
+        v-bind="$attrs"
+        :value="props.modelValue"
+        @input="updateValue($event.target.value)"
+      />
       <div class="show-password-btn" @click="toggleShowPassword">
         <OnPasswordIcon v-if="showPassword" />
         <OffPasswordIcon v-if="!showPassword" class="off-password-icon" />
       </div>
     </div>
-    <div class="field-error error" v-if="false">Неверный email</div>
+    <div class="field-error error" v-if="props.error">
+      <slot name="errorText" />
+    </div>
   </div>
 </template>
 
