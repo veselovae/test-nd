@@ -21,8 +21,14 @@ const modal = useShowModal();
   </header>
 </template>
 
-<style scoped>
-.login-btn {
-  gap: 12px;
+<style scoped lang="scss">
+header {
+  position: relative;
+  z-index: 900;
+  background-color: var(--dark);
+
+  .login-btn {
+    gap: 12px;
+  }
 }
 </style>

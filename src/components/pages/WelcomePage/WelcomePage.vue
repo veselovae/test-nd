@@ -1,17 +1,28 @@
 <script setup lang="ts">
 import TheHeader from "./TheHeader.vue";
 import ImgBackground from "./ImgBackground.vue";
+import LoginModal from "@/components/modal/LoginModal.vue";
+import SigninModal from "@/components/modal/SigninModal.vue";
 
 import UiModal from "@/components/ui/UiModal.vue";
 
 import { useSwitchModalComponent } from "@/stores/switchModalComponent";
+import { useShowModal } from "@/stores/showModal";
 
 const modalComponentStore = useSwitchModalComponent();
+const modal = useShowModal();
+
+const checkModalComponent = () => {
+  if (modalComponentStore.modalComponent === SigninModal) {
+    modalComponentStore.switchModalComponent(LoginModal);
+  }
+  modal.toggleShowModal();
+};
 </script>
 
 <template>
   <div class="welcome-wrapper page-wrapper">
-    <UiModal>
+    <UiModal @checkModalComponent="checkModalComponent">
       <component :is="modalComponentStore.modalComponent" />
     </UiModal>
     <TheHeader />
