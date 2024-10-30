@@ -2,7 +2,7 @@ export interface IRequestResults {
   totalError: string;
   filteredErrors: { [key: string]: [] } | undefined;
   success: boolean;
-  fulfilledValue: object;
+  fulfilledValue: { [key: string]: [] };
 }
 
 export type methodsType = "get" | "post" | "delete";

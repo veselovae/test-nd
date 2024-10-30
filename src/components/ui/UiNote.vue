@@ -68,7 +68,6 @@ const emit = defineEmits(["deleteNote"]);
     margin-bottom: 20px;
   }
 
-  /*ADD AN ELLIPSIS LIME TRIM*/
   .note-text {
     padding: 0 28px;
     font-size: var(--text-normal-size);

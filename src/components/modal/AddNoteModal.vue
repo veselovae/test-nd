@@ -30,7 +30,7 @@ const newNote = ref<INewNote>({
 const addingNoteResults = ref<null | IRequestResults>(null);
 
 const addNewNote = async () => {
-  const responseJson = await getRequest(
+  const jsonResponse = await getRequest(
     "notes",
     "post",
     { Authorization: "Bearer " + getCookie("token") },
@@ -42,11 +42,10 @@ const addNewNote = async () => {
     content: ["содержимое"],
   };
 
-  addingNoteResults.value = processRequestResults(responseJson, filter);
+  addingNoteResults.value = processRequestResults(jsonResponse, filter);
 
   if (addingNoteResults.value?.fulfilledValue?.id) {
-    // TODO: check adding to notes strore
-    notesStore.addNote(addingNoteResults.value.fulfilledValue);
+    notesStore.addNote(addingNoteResults.value?.fulfilledValue);
     resetFieldsValue(newNote);
     modalStore.toggleShowModal();
   }
@@ -97,27 +96,21 @@ watch(
         placeholder="Текст заметки"
         v-model.trim="newNote.title"
         maxlength="64"
-        :error="!!addingNoteResults?.filteredErrors?.title?.length"
+        :error="addingNoteResults?.filteredErrors?.title"
         :length="newNote.title.length"
         :charBox="64"
       >
         Название заметки
-        <template v-slot:errorText>{{
-          addingNoteResults.filteredErrors?.title[0]
-        }}</template>
       </UiTextField>
       <UiTextareaField
         placeholder="Введите текст"
         v-model.trim="newNote.content"
         maxlength="255"
-        :error="!!addingNoteResults?.filteredErrors?.content?.length"
+        :error="addingNoteResults?.filteredErrors?.content"
         :length="newNote.content.length"
         :charBox="255"
       >
         Текст заметки
-        <template v-slot:errorText>{{
-          addingNoteResults?.filteredErrors?.content[0]
-        }}</template>
       </UiTextareaField>
     </div>
 

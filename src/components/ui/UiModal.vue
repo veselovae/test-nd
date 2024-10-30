@@ -17,7 +17,6 @@ const modal = useShowModal();
         <CloseIcon />
       </UiButton>
       <slot />
-      <!-- <component :is="modalComponentStore.modalComponent" /> -->
     </div>
   </div>
 </template>

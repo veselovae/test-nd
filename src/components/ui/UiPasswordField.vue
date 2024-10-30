@@ -18,7 +18,7 @@ const toggleShowPassword = () => (showPassword.value = !showPassword.value);
 
 const props = defineProps<{
   modelValue: string;
-  error: boolean;
+  error: string[] | [] | undefined;
 }>();
 
 const emit = defineEmits(["update:modelValue"]);
@@ -43,8 +43,8 @@ const updateValue = (value: string) => emit("update:modelValue", value);
         <OffPasswordIcon v-if="!showPassword" class="off-password-icon" />
       </div>
     </div>
-    <div class="field-error error" v-if="props.error">
-      <slot name="errorText" />
+    <div class="field-error error" v-if="props.error?.length">
+      {{ props.error[0] }}
     </div>
   </div>
 </template>
@@ -68,5 +68,8 @@ const updateValue = (value: string) => emit("update:modelValue", value);
     position: relative;
     top: 1px;
   }
+}
+.field-error {
+  margin-top: 8px;
 }
 </style>

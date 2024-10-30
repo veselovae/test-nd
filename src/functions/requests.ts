@@ -20,21 +20,13 @@ const errorsFilter = (errors: string[], filter: object) => {
       filtered[key].push(...filteredByValue);
     });
   }
-
-  //   errors.forEach((err) => {
-  //     if (err.toLowerCase().indexOf("заголовок") !== -1) {
-  //       filtered.title.push(err);
-  //     } else if (err.toLowerCase().indexOf("содержимое") !== -1) {
-  //       filtered.content.push(err);
-  //     }
-  //   });
   return filtered;
 };
 
 export const getRequest = async (
   path: string,
   method: methodsType,
-  headers: object,
+  headers?: object,
   body: object | null = null
 ) => {
   const url = "https://dist.nd.ru/api/" + path;
@@ -43,8 +35,10 @@ export const getRequest = async (
     "Content-Type": "application/json",
   };
 
-  for (const [key, value] of Object.entries(headers)) {
-    header[key as keyof typeof header] = value;
+  if (headers) {
+    for (const [key, value] of Object.entries(headers)) {
+      header[key as keyof typeof header] = value;
+    }
   }
 
   const options: IOptions = {
@@ -61,8 +55,8 @@ export const getRequest = async (
   if (method === "delete" && response.status === 200) {
     return;
   }
-  const JsonResponse = await response.json();
-  return JsonResponse;
+  const jsonResponse = await response.json();
+  return jsonResponse;
 };
 
 export const processRequestResults = (

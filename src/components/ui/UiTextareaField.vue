@@ -7,7 +7,7 @@ export default {
 <script setup lang="ts">
 const props = defineProps<{
   modelValue: string;
-  error: boolean;
+  error: string[] | [] | undefined;
   length?: number;
   charBox?: number;
 }>();
@@ -27,8 +27,8 @@ const updateValue = (value: string) => emit("update:modelValue", value);
       @input="updateValue($event.target.value)"
     />
     <div class="error-and-char">
-      <div class="field-error error" v-if="props.error">
-        <slot name="errorText" />
+      <div class="field-error error" v-if="!!props.error?.length">
+        {{ props.error[0] }}
       </div>
 
       <div class="num-of-char" v-if="props.charBox">

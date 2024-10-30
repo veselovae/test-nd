@@ -5,95 +5,68 @@ import UiButton from "../ui/UiButton.vue";
 import LoginModal from "../modal/LoginModal.vue";
 
 import { useSwitchModalComponent } from "@/stores/switchModalComponent";
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { getRequest, processRequestResults } from "@/functions/requests";
+import { type ISignInData } from "@/interfaces/modalFields";
+import { type IRequestResults } from "@/interfaces/requests";
 
 const modalComponentStore = useSwitchModalComponent();
 
-interface IRegData {
-  email: string;
-  password: string;
-  confirm_password: string;
-}
-
-const regData = ref<IRegData>({
+const regData = ref<ISignInData>({
   email: "",
   password: "",
   confirm_password: "",
 });
 
-type fieldError = string[] | [];
-
-interface IFieldErrors {
-  email: fieldError;
-  password: fieldError;
-  confirm_password: fieldError;
-}
-
-const errorsFilter = (errors: string[]) => {
-  const filtered: IFieldErrors = {
-    email: [],
-    password: [],
-    confirm_password: [],
-  };
-  errors.forEach((err) => {
-    if (err.toLowerCase().indexOf("пароль") !== -1) {
-      filtered.password.push(err);
-    } else if (err.toLowerCase().indexOf("подтверждение пароля") !== -1) {
-      filtered.confirm_password.push(err);
-    } else if (
-      err.toLowerCase().indexOf("E-Mail") !== -1 ||
-      err.toLowerCase().indexOf("электронной") !== -1
-    ) {
-      filtered.email.push(err);
-    }
-  });
-  return filtered;
-};
-
-// let filteredErrors: IFieldErrors;
-// let totalError: string;
-
-const tryReg = async () => {
-  const results = {
-    filteredErrors: {},
-    totalError: "",
-    success: false,
-  };
-
-  try {
-    const response = await fetch("https://dist.nd.ru/api/reg", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(regData.value),
-    });
-    const jsonResponse = await response.json();
-    if (jsonResponse.statusCode === 400) {
-      results.filteredErrors = errorsFilter(jsonResponse.message);
-    } else if (jsonResponse.statusCode === 409) {
-      results.totalError = jsonResponse.message;
-    } else {
-      results.success = true;
-    }
-  } catch (err) {
-    console.error(err);
-  }
-  return results;
-};
-
-const registrationResuts = ref({
-  filteredErrors: {},
-  totalError: "",
-  success: false,
-});
+const regResults = ref<null | IRequestResults>(null);
 
 const compliteReg = async () => {
-  registrationResuts.value = await tryReg();
-  if (!!registrationResuts.value.success) {
+  const jsonResponse = await getRequest(
+    "reg",
+    "post",
+    undefined,
+    regData.value
+  );
+
+  const filter = {
+    email: ["e-mail", "электронной"],
+    password: ["пароль"],
+    confirm_password: ["подтверждение пароля"],
+  };
+
+  regResults.value = processRequestResults(jsonResponse, filter);
+
+  if (!!regResults.value.fulfilledValue?.id) {
     modalComponentStore.switchModalComponent(LoginModal);
   }
 };
+
+watch(
+  () => regData.value.email,
+  (newVal, oldVal) => {
+    if (oldVal === "" && newVal !== "") {
+      delete regResults.value?.filteredErrors?.email;
+    }
+  }
+);
+
+watch(
+  () => regData.value.password,
+  (newVal, oldVal) => {
+    if (oldVal === "" && newVal !== "") {
+      delete regResults.value?.filteredErrors?.password;
+    }
+  }
+);
+
+watch(
+  () => regData.value.confirm_password,
+  (newVal, oldVal) => {
+    if (oldVal === "" && newVal !== "") {
+      delete regResults.value?.filteredErrors?.confirm_password;
+    }
+  }
+);
 </script>
 
 <template>
@@ -104,30 +77,23 @@ const compliteReg = async () => {
         placeholder="Введите Email"
         type="email"
         v-model.trim="regData.email"
-        :error="!!registrationResuts?.filteredErrors?.email?.length"
+        :error="regResults?.filteredErrors?.email"
       >
         Email
-        <template v-slot:errorText>{{
-          registrationResuts?.filteredErrors?.email[0]
-        }}</template>
       </UiTextField>
+
       <UiPasswordField
         v-model="regData.password"
-        :error="!!registrationResuts?.filteredErrors?.password?.length"
+        :error="regResults?.filteredErrors?.password"
       >
         Пароль
-        <template v-slot:errorText>{{
-          registrationResuts?.filteredErrors?.password[0]
-        }}</template>
       </UiPasswordField>
+
       <UiPasswordField
         v-model="regData.confirm_password"
-        :error="!!registrationResuts?.filteredErrors?.confirm_password?.length"
+        :error="regResults?.filteredErrors?.confirm_password"
       >
         Пароль ещё раз
-        <template v-slot:errorText>{{
-          registrationResuts?.filteredErrors?.confirm_password[0]
-        }}</template>
       </UiPasswordField>
     </div>
 
@@ -142,8 +108,8 @@ const compliteReg = async () => {
       <UiButton @click="compliteReg">Зарегистрироваться</UiButton>
     </div>
 
-    <div class="signin-error error" v-if="registrationResuts?.totalError">
-      {{ registrationResuts?.totalError }}
+    <div class="signin-error error" v-if="regResults?.totalError">
+      {{ regResults?.totalError }}
     </div>
   </div>
 </template>

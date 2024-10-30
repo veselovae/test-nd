@@ -7,92 +7,64 @@ import SigninModal from "../modal/SigninModal.vue";
 import { useSwitchModalComponent } from "@/stores/switchModalComponent";
 import { useShowModal } from "@/stores/showModal";
 
-import { ref } from "vue";
-import { setCookie } from "@/functions/cookieFunctions";
+import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
+import { setCookie } from "@/functions/cookieFunctions";
+import { getRequest, processRequestResults } from "@/functions/requests";
+import { type ILogInData } from "@/interfaces/modalFields";
+import { type IRequestResults } from "@/interfaces/requests";
 
 const router = useRouter();
 
 const modalComponentStore = useSwitchModalComponent();
 const showModalStore = useShowModal();
 
-const authData = ref({
+const authData = ref<ILogInData>({
   email: "",
   password: "",
 });
 
-type fieldError = string[] | [];
-
-interface IFieldErrors {
-  email: fieldError;
-  password: fieldError;
-  confirm_password: fieldError;
-}
-
-const errorsFilter = (errors: string[]) => {
-  const filtered: IFieldErrors = {
-    email: [],
-    password: [],
-    confirm_password: [],
-  };
-  errors.forEach((err) => {
-    if (err.toLowerCase().indexOf("пароль") !== -1) {
-      filtered.password.push(err);
-    } else if (err.toLowerCase().indexOf("подтверждение пароля") !== -1) {
-      filtered.confirm_password.push(err);
-    } else if (
-      err.toLowerCase().indexOf("E-Mail") !== -1 ||
-      err.toLowerCase().indexOf("электронной") !== -1
-    ) {
-      filtered.email.push(err);
-    }
-  });
-  return filtered;
-};
-
-const getToken = async (data) => {
-  const results = {
-    token: "",
-    totalError: "",
-    filteredErrors: {},
-  };
-  try {
-    const response = await fetch("https://dist.nd.ru/api/auth", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data.value),
-    });
-    const jsonResponse = await response.json();
-
-    if (jsonResponse.statusCode === 400) {
-      results.filteredErrors = errorsFilter(jsonResponse.message);
-    } else if (jsonResponse.statusCode === 404) {
-      results.totalError = jsonResponse.message;
-    } else {
-      results.token = jsonResponse.accessToken;
-    }
-  } catch (err) {
-    console.error(err);
-  }
-  return results;
-};
-
-const registrationResuts = ref({
-  token: "",
-  totalError: "",
-  filteredErrors: {},
-});
+const logInResults = ref<null | IRequestResults>(null);
 
 const compliteAuth = async () => {
-  registrationResuts.value = await getToken(authData);
-  if (registrationResuts.value.token) {
-    setCookie("token", registrationResuts.value.token);
+  const responseJson = await getRequest(
+    "auth",
+    "post",
+    undefined,
+    authData.value
+  );
+
+  const filter = {
+    password: ["пароль"],
+    email: ["e-mail", "электронной"],
+  };
+
+  logInResults.value = processRequestResults(responseJson, filter);
+
+  if (logInResults.value?.fulfilledValue?.accessToken) {
+    setCookie("token", logInResults.value?.fulfilledValue?.accessToken);
     showModalStore.toggleShowModal();
     router.push("/notes");
   }
 };
+
+watch(
+  () => authData.value.email,
+  (newVal, oldVal) => {
+    if (oldVal === "" && newVal !== "") {
+      delete logInResults.value?.filteredErrors?.email;
+    }
+  }
+);
+
+watch(
+  () => authData.value.password,
+  (newVal, oldVal) => {
+    if (oldVal === "" && newVal !== "") {
+      delete logInResults.value?.filteredErrors?.password;
+    }
+  }
+);
 </script>
 
 <template>
@@ -103,21 +75,16 @@ const compliteAuth = async () => {
         placeholder="Введите Email"
         type="email"
         v-model.trim="authData.email"
-        :error="!!registrationResuts?.filteredErrors?.email?.length"
+        :error="logInResults?.filteredErrors?.email"
       >
         Email
-        <template v-slot:errorText>{{
-          registrationResuts?.filteredErrors?.email[0]
-        }}</template>
       </UiTextField>
+
       <UiPasswordField
         v-model="authData.password"
-        :error="!!registrationResuts?.filteredErrors?.password?.length"
+        :error="logInResults?.filteredErrors?.password"
       >
         Пароль
-        <template v-slot:errorText>{{
-          registrationResuts?.filteredErrors?.password[0]
-        }}</template>
       </UiPasswordField>
     </div>
 
@@ -132,8 +99,8 @@ const compliteAuth = async () => {
       <UiButton @click="compliteAuth">Войти</UiButton>
     </div>
 
-    <div class="login-error error" v-if="registrationResuts.totalError">
-      {{ registrationResuts.totalError }}
+    <div class="login-error error" v-if="logInResults?.totalError">
+      {{ logInResults?.totalError }}
     </div>
   </div>
 </template>
