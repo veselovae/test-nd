@@ -96,7 +96,9 @@ watch(
         </button>
       </div>
 
-      <UiButton @click="compliteAuth">Войти</UiButton>
+      <UiButton @click="compliteAuth" class="modal-act-btn login-btn"
+        >Войти</UiButton
+      >
     </div>
 
     <div class="login-error error" v-if="logInResults?.totalError">

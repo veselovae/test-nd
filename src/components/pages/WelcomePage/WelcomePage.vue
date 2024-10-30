@@ -77,6 +77,10 @@ const checkModalComponent = () => {
       gap: 90px;
     }
 
+    @media (orientation: landscape) and (max-width: 1250px) {
+      gap: 40px;
+    }
+
     @media (orientation: portrait) {
       flex-direction: column;
       gap: 0;
@@ -115,6 +119,11 @@ const checkModalComponent = () => {
         line-height: 104px;
         margin-bottom: 40px;
 
+        @media (orientation: landscape) and (max-width: 1250px) {
+          font-size: 80px;
+          line-height: 80px;
+        }
+
         @media (orientation: portrait) and (max-width: 620px) {
           font-size: 60px;
           line-height: 64px;
@@ -128,6 +137,11 @@ const checkModalComponent = () => {
         color: var(--gray);
         max-width: 394px;
         line-height: 48px;
+
+        @media (orientation: landscape) and (max-width: 1250px) {
+          font-size: 29px;
+          line-height: 40px;
+        }
 
         @media screen and (max-width: 1367px) {
           max-width: 100%;

@@ -62,7 +62,7 @@ const emit = defineEmits(["deleteNote"]);
     color: var(--white);
     display: flex;
     align-items: center;
-    padding: 0 28px;
+    padding: 20px 28px;
     border: 0;
     border-bottom: 1px solid var(--green);
     margin-bottom: 20px;

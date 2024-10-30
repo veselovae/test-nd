@@ -105,7 +105,9 @@ watch(
         </button>
       </div>
 
-      <UiButton @click="compliteReg">Зарегистрироваться</UiButton>
+      <UiButton @click="compliteReg" class="modal-act-btn reg-btn"
+        >Зарегистрироваться</UiButton
+      >
     </div>
 
     <div class="signin-error error" v-if="regResults?.totalError">

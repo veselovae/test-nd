@@ -1,5 +1,4 @@
 .modal-wrapper {
-    /*TODO: fixed sizes*/
     position: absolute;
     z-index: 1000;
     top: 0;
@@ -8,9 +7,6 @@
     height: 100%;
     width: 100%;
     background-color: var(--dark-opacity);
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
     padding: 34px 40px;
     animation: appearanceBackgroundModal 0.2s 1;
 
@@ -22,7 +18,7 @@
             opacity: 1;
         }
     }
-    /*TODO: fixed position*/
+
     .modal {
         position: fixed;
         top: 50%;
@@ -31,7 +27,7 @@
         background-color: var(--dark-middle);
         border-radius: 40px;
         padding: 80px;
-        max-width: calc(780px + 80px);
+        max-width: 780px;
         width: 100%;
         animation: appearanceModal 0.4s 1;
         display: flex;
@@ -39,6 +35,22 @@
         font-size: var(--text-small-size);
         font-weight: var(--text-small-weight);
         color: var(--gray);
+
+        @media (max-width: 1367px) {
+            max-width: 594px;
+            padding: 8px;
+        }
+
+        @media (orientation: portrait) and (max-width: 780px) {
+            padding: 56px;
+        }
+
+        @media (orientation: portrait) and (max-width: 487px) {
+            padding: 16px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+        }
 
         @keyframes appearanceModal {
             from {
@@ -65,12 +77,22 @@
             font-weight: var(--heading-h2-weight);
             color: var(--white);
             margin-bottom: 40px;
+
+            @media (orientation: portrait) and (max-width: 411px) {
+                font-size: 32px;
+                line-height: 36px;
+                margin-bottom: 28px;
+            }
         }
 
         .inputs-box {
             display: flex;
             flex-direction: column;
             gap: 20px;
+
+            @media (orientation: portrait) and (max-width: 411px) {
+                gap: 10px;
+            }
         }
     }
 }
@@ -81,9 +103,27 @@
     align-items: center;
     margin-top: 40px;
 
+    @media (orientation: portrait) and (max-width: 563px) {
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+
     .sign-in {
         display: flex;
         gap: 4px;
+
+        @media (max-width: 1367px) {
+            flex-direction: column;
+        }
+
+        @media (orientation: portrait) and (max-width: 563px) {
+            flex-direction: row;
+            gap: 4px;
+        }
+
+        @media (orientation: portrait) and (max-width: 411px) {
+            font-size: 14px;
+        }
 
         button {
             background: transparent;
@@ -105,6 +145,16 @@
             &:disabled {
                 color: var(--gray);
             }
+
+            @media (orientation: portrait) and (max-width: 411px) {
+                font-size: 14px;
+            }
+        }
+    }
+
+    .modal-act-btn {
+        @media (orientation: portrait) and (max-width: 563px) {
+            width: 100%;
         }
     }
 }
@@ -113,6 +163,10 @@
     color: #ff7461;
     padding-left: 20px;
     padding-right: 20px;
+
+    @media (orientation: portrait) and (max-width: 563px) {
+        font-size: 14px;
+    }
 }
 
 .login-error,
