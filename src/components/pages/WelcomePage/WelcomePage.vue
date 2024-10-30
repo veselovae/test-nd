@@ -37,6 +37,7 @@ const checkModalComponent = () => {
 
         <div class="img-wrapper">
           <ImgBackground class="img-background" />
+
           <img src="@/assets/img/welcome-img.png" alt="welcome" />
         </div>
       </div>
@@ -51,13 +52,35 @@ const checkModalComponent = () => {
   align-items: center;
   padding: 0 160px;
   height: calc(100vh - 136px);
+  overflow-y: hidden;
+
+  @media screen and (max-width: 1367px) {
+    padding: 0 80px;
+  }
+
+  @media screen and (max-width: 731px) {
+    padding: 0 40px;
+  }
+
+  @media screen and (max-width: 401px) {
+    padding: 0 20px;
+  }
 
   .welcome-content {
-    max-height: calc(1000px - 136px);
+    max-height: calc(100vh - 136px);
     width: 100%;
     height: 100%;
     display: flex;
     gap: 61px;
+
+    @media screen and (max-width: 1367px) {
+      gap: 90px;
+    }
+
+    @media (orientation: portrait) {
+      flex-direction: column;
+      gap: 0;
+    }
   }
 
   .text-wrapper {
@@ -66,15 +89,37 @@ const checkModalComponent = () => {
     height: 100%;
     align-content: center;
 
+    @media (orientation: portrait) {
+      max-width: 100%;
+      width: 100%;
+      height: max-content;
+      display: flex;
+      justify-content: center;
+      padding-top: 10px;
+    }
+
     .text-content {
       position: relative;
       top: -23px;
+
+      @media (orientation: portrait) {
+        max-width: 688px;
+        width: 100%;
+        height: max-content;
+        text-align: center;
+      }
 
       h1 {
         font-size: var(--heading-h1-size);
         font-weight: var(--heading-h1-weight);
         line-height: 104px;
         margin-bottom: 40px;
+
+        @media (orientation: portrait) and (max-width: 620px) {
+          font-size: 60px;
+          line-height: 64px;
+          margin-bottom: 20px;
+        }
       }
 
       h3 {
@@ -83,6 +128,15 @@ const checkModalComponent = () => {
         color: var(--gray);
         max-width: 394px;
         line-height: 48px;
+
+        @media screen and (max-width: 1367px) {
+          max-width: 100%;
+        }
+
+        @media (orientation: portrait) and (max-width: 501px) {
+          font-size: 24px;
+          line-height: 36px;
+        }
       }
     }
   }
@@ -94,21 +148,29 @@ const checkModalComponent = () => {
     justify-content: center;
     max-width: 897px;
     width: 100%;
-    height: 100%;
+
+    @media (orientation: portrait) {
+      height: 100%;
+      align-self: center;
+    }
 
     .img-background {
       position: absolute;
       z-index: 0;
       top: 0;
       width: 100%;
+      height: 100%;
+      /*object-fit: contain;*/
     }
 
     img {
       position: absolute;
-      bottom: 0;
+      bottom: -17px;
       z-index: 3;
       max-width: 684.88px;
-      width: 100%;
+      width: 76%;
+      height: 86%;
+      object-fit: contain;
     }
   }
 }

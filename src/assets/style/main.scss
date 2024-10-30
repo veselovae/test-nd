@@ -13,7 +13,6 @@
 .page-wrapper {
     width: 100%;
     max-width: 1920px;
-    /*position: relative;*/
 }
 
 header {
@@ -24,4 +23,19 @@ header {
     padding-left: 160px;
     padding-right: 160px;
     height: 136px;
+
+    @media screen and (max-width: 1367px) {
+        padding-left: 80px;
+        padding-right: 80px;
+    }
+
+    @media screen and (max-width: 730px) {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
+    @media screen and (max-width: 401px) {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
 }

@@ -9,24 +9,23 @@ import { useShowModal } from "@/stores/showModal";
 import { useNotes } from "@/stores/notes";
 import { useUser } from "@/stores/user";
 
-import { onMounted } from "vue";
+import { onBeforeMount, onMounted } from "vue";
 import { getCookie } from "@/functions/cookieFunctions";
 import { getRequest } from "@/functions/requests";
+
+import { useRouter } from "vue-router";
 
 const modalStore = useShowModal();
 const notesStore = useNotes();
 const userStore = useUser();
 
-// TODO: rewrite this checkAuth func with getRequest func
-const checkAuth = async (): Promise<string> => {
-  const response = await fetch("https://dist.nd.ru/api/auth", {
-    method: "get",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getCookie("token"),
-    },
+const router = useRouter();
+
+const checkAuth = async () => {
+  const responseJson = await getRequest("auth", "get", {
+    Authorization: "Bearer " + getCookie("token"),
   });
-  const responseJson = await response.json();
+
   return responseJson.email;
 };
 
@@ -37,6 +36,13 @@ const deleteNote = async (id: number) => {
   });
   notesStore.deleteNote(id);
 };
+
+onBeforeMount(() => {
+  const isToken = getCookie("token");
+  if (!isToken) {
+    router.push("/");
+  }
+});
 
 onMounted(async () => {
   const user = await checkAuth();
