@@ -76,7 +76,8 @@ export const processRequestResults = (
     );
   } else if (
     responseJson?.statusCode === 404 ||
-    responseJson?.statusCode === 401
+    responseJson?.statusCode === 401 ||
+    responseJson?.statusCode === 409
   ) {
     results.totalError = responseJson.message as string;
   } else {
