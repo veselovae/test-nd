@@ -45,6 +45,7 @@ onBeforeMount(() => {
 });
 
 onMounted(async () => {
+  modalStore.showModal = false;
   const user = await checkAuth();
   userStore.changeUser(user);
   const responseJson = await getRequest("notes", "get", {
@@ -58,7 +59,7 @@ onMounted(async () => {
   <div class="notes-page-wrapper page-wrapper">
     <NotesHeader />
 
-    <UiNotesModal class="create-note-modal" :isNoteModal="true" />
+    <UiNotesModal class="create-note-modal" />
 
     <div class="notes-wrapper">
       <UiNote
@@ -69,13 +70,6 @@ onMounted(async () => {
         <template v-slot:name>{{ note.title }}</template>
         <template v-slot:text>{{ note.content }}</template>
       </UiNote>
-
-      <span class="note-plug note-wrapper" style="background-color: white">
-        sdfv
-      </span>
-      <span class="note-plug note-wrapper" style="background-color: white">
-        sdfv
-      </span>
     </div>
     <UiButton class="add-note-btn" @click="modalStore.toggleShowModal">
       <AddIcon />
@@ -97,22 +91,31 @@ onMounted(async () => {
 .notes-wrapper {
   padding: 40px 160px;
   min-height: calc(100vh - 136px - 40px * 2);
-  display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: auto-fill;
   gap: 40px;
+  align-items: start;
 
   @media (max-width: 1566px) {
     gap: 20px;
     padding: 40px 80px;
   }
 
-  .note-plug {
-    max-width: 1053.34px;
+  @media (max-width: 1367px) {
+    grid-template-columns: 1fr 1fr;
   }
-}
 
-.notes-wrapper > * {
-  flex: 1 1 50px;
+  @media (max-width: 962px) {
+    grid-template-columns: 1fr;
+  }
+
+  @media (max-width: 800px) {
+    padding: 30px;
+  }
+
+  @media (max-width: 557px) {
+    padding: 20px;
+  }
 }
 </style>

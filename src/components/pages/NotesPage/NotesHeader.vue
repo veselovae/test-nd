@@ -24,7 +24,7 @@ onMounted(() => (isUserMenu.value = false));
 <template>
   <header>
     <div class="logo">
-      <LogoIcon />
+      <LogoIcon class="logo-icon" />
     </div>
 
     <div class="user-box">
@@ -61,6 +61,12 @@ onMounted(() => (isUserMenu.value = false));
     border-radius: 50%;
     border: 0;
     cursor: pointer;
+  }
+
+  .email {
+    @media (max-width: 601px) {
+      display: none;
+    }
   }
 
   .user-menu {

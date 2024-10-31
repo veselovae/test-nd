@@ -11,7 +11,7 @@ const modal = useShowModal();
 </script>
 
 <template>
-  <div class="modal-wrapper" :class="{ inactive: modal.showModal }">
+  <div class="modal-wrapper" :class="{ inactive: !modal.showModal }">
     <div class="modal" :class="{ 'note-modal-wrapper': props.isNoteModal }">
       <UiButton class="close-btn" @click="emit('checkModalComponent')">
         <CloseIcon />

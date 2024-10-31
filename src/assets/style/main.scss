@@ -38,23 +38,10 @@ header {
         padding-left: 20px;
         padding-right: 20px;
     }
-}
 
-.note-wrapper {
-    max-width: 506.67px;
-    width: 100%;
-    min-width: 388.67px;
-    max-height: 480px;
-    background-color: var(--green-light);
-    border-radius: 20px;
-    position: relative;
-    box-shadow: var(--shadow);
-
-    @media (max-width: 1366px) {
-        max-width: 600px;
-    }
-
-    @media (max-width: 957px) {
-        max-width: 100%;
+    .logo-icon {
+        @media (orientation: portrait) and (max-width: 541px) {
+            width: 154px;
+        }
     }
 }

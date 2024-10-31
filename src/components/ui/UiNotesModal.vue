@@ -9,7 +9,7 @@ const modal = useShowModal();
 </script>
 
 <template>
-  <div class="modal-wrapper" :class="{ inactive: modal.showModal }">
+  <div class="modal-wrapper" :class="{ inactive: !modal.showModal }">
     <div class="modal note-modal-wrapper">
       <UiButton class="close-btn" @click="modal.toggleShowModal">
         <CloseIcon />
@@ -18,9 +18,3 @@ const modal = useShowModal();
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.note-modal-wrapper {
-  /*max-width: 594px !important;*/
-}
-</style>

@@ -38,15 +38,16 @@ const emit = defineEmits(["deleteNote"]);
     max-width: 600px;
   }
 
-  @media (max-width: 957px) {
+  @media (max-width: 962px) {
+    min-width: 320px;
     max-width: 100%;
   }
 
   &::after {
     content: "";
     position: absolute;
-    right: -1px;
-    top: 0;
+    right: -2px;
+    top: -2px;
     border: 20px solid transparent;
     border-top: 20px solid var(--dark);
     border-right: 20px solid var(--dark);
@@ -71,10 +72,10 @@ const emit = defineEmits(["deleteNote"]);
     color: var(--white);
     display: flex;
     align-items: center;
-    padding: 20px 28px;
+    padding: 20px 28px 0;
     border: 0;
-    border-bottom: 1px solid var(--green);
-    margin-bottom: 20px;
+    /*border-bottom: 1px solid var(--green);*/
+    /*margin-bottom: 20px*/
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: 3;
@@ -84,7 +85,9 @@ const emit = defineEmits(["deleteNote"]);
   }
 
   .note-text {
-    padding: 0 28px;
+    padding: 20px 28px 0;
+    margin-top: 20px;
+    border-top: 1px solid var(--green);
     font-size: var(--text-normal-size);
     font-weight: var(--text-normal-weight);
     color: var(--white);

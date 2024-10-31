@@ -11,7 +11,7 @@ const modal = useShowModal();
 <template>
   <header>
     <div class="logo">
-      <LogoIcon class="logo" />
+      <LogoIcon class="logo-icon" />
     </div>
 
     <UiButton class="login-btn" @click="modal.toggleShowModal">
@@ -29,12 +29,6 @@ header {
 
   .login-btn {
     gap: 12px;
-  }
-
-  .logo {
-    @media (orientation: portrait) and (max-width: 501px) {
-      width: 154px;
-    }
   }
 }
 </style>

@@ -15,5 +15,6 @@ import { RouterView } from "vue-router";
   background-color: var(--dark);
   display: flex;
   justify-content: center;
+  position: relative;
 }
 </style>
