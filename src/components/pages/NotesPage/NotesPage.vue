@@ -69,6 +69,13 @@ onMounted(async () => {
         <template v-slot:name>{{ note.title }}</template>
         <template v-slot:text>{{ note.content }}</template>
       </UiNote>
+
+      <span class="note-plug note-wrapper" style="background-color: white">
+        sdfv
+      </span>
+      <span class="note-plug note-wrapper" style="background-color: white">
+        sdfv
+      </span>
     </div>
     <UiButton class="add-note-btn" @click="modalStore.toggleShowModal">
       <AddIcon />
@@ -94,5 +101,18 @@ onMounted(async () => {
   align-items: flex-start;
   flex-wrap: wrap;
   gap: 40px;
+
+  @media (max-width: 1566px) {
+    gap: 20px;
+    padding: 40px 80px;
+  }
+
+  .note-plug {
+    max-width: 1053.34px;
+  }
+}
+
+.notes-wrapper > * {
+  flex: 1 1 50px;
 }
 </style>

@@ -27,16 +27,25 @@ const emit = defineEmits(["deleteNote"]);
 .note-wrapper {
   max-width: 506.67px;
   width: 100%;
+  min-width: 388.67px;
   max-height: 480px;
   background-color: var(--green-light);
   border-radius: 20px;
   position: relative;
   box-shadow: var(--shadow);
 
+  @media (max-width: 1366px) {
+    max-width: 600px;
+  }
+
+  @media (max-width: 957px) {
+    max-width: 100%;
+  }
+
   &::after {
     content: "";
     position: absolute;
-    right: 0;
+    right: -1px;
     top: 0;
     border: 20px solid transparent;
     border-top: 20px solid var(--dark);
@@ -66,6 +75,12 @@ const emit = defineEmits(["deleteNote"]);
     border: 0;
     border-bottom: 1px solid var(--green);
     margin-bottom: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
   }
 
   .note-text {
