@@ -71,7 +71,11 @@ onMounted(async () => {
         <template v-slot:text>{{ note.content }}</template>
       </UiNote>
     </div>
-    <UiButton class="add-note-btn" @click="modalStore.toggleShowModal">
+    <UiButton
+      class="add-note-btn"
+      @click="modalStore.toggleShowModal"
+      title="Добавить заметку"
+    >
       <AddIcon />
     </UiButton>
   </div>

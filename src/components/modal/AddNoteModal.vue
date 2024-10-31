@@ -14,7 +14,7 @@ import {
   processRequestResults,
   resetFieldsValue,
 } from "@/functions/requests";
-import { type IRequestResults } from "@/interfaces/requests";
+import { type INote, type IRequestResults } from "@/interfaces/requests";
 import { type INewNote } from "@/interfaces/modalFields";
 
 const router = useRouter();
@@ -45,7 +45,7 @@ const addNewNote = async () => {
   addingNoteResults.value = processRequestResults(jsonResponse, filter);
 
   if (addingNoteResults.value?.fulfilledValue?.id) {
-    notesStore.addNote(addingNoteResults.value?.fulfilledValue);
+    notesStore.addNote(addingNoteResults.value?.fulfilledValue as INote);
     resetFieldsValue(newNote);
     modalStore.toggleShowModal();
   }

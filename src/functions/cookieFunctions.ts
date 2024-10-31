@@ -20,7 +20,7 @@ export function setCookie(name: string, value: string, options = {}) {
 
   for (const optionKey in options) {
     updatedCookie += "; " + optionKey;
-    const optionValue = options[optionKey];
+    const optionValue = options[optionKey as keyof typeof options];
     if (optionValue !== true) {
       updatedCookie += "=" + optionValue;
     }

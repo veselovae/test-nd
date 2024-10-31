@@ -1,8 +1,18 @@
+export type INote = {
+  id: number;
+  title: string;
+  content: string;
+};
+
+export type responseJsonType = {
+  [key: string]: number | string[] | string;
+};
+
 export interface IRequestResults {
   totalError: string;
-  filteredErrors: { [key: string]: [] } | undefined;
+  filteredErrors: { [key: string]: string[] } | undefined;
   success: boolean;
-  fulfilledValue: { [key: string]: [] };
+  fulfilledValue: responseJsonType;
 }
 
 export type methodsType = "get" | "post" | "delete";
@@ -15,19 +25,3 @@ export interface IOptions {
   };
   body?: string;
 }
-
-export type IResponseJsonError = {
-  message: string[];
-  error: string;
-  statusCode: number;
-};
-
-export type IResponseAdditionNote = {
-  id: number;
-  title: string;
-  content: string;
-};
-
-export type ResponseAdditionNoteTypes =
-  | IResponseJsonError
-  | IResponseAdditionNote;

@@ -1,14 +1,14 @@
 import {
+  type responseJsonType,
   type IRequestResults,
   type IOptions,
   type methodsType,
-  type ResponseAdditionNoteTypes,
 } from "@/interfaces/requests";
 
 import { type Ref } from "vue";
 
 const errorsFilter = (errors: string[], filter: object) => {
-  const filtered = {};
+  const filtered: { [key: string]: string[] } = {};
 
   for (const [key, value] of Object.entries(filter)) {
     filtered[key] = [];
@@ -60,8 +60,8 @@ export const getRequest = async (
 };
 
 export const processRequestResults = (
-  responseJson: ResponseAdditionNoteTypes,
-  filter: object,
+  responseJson: responseJsonType,
+  filter: { [key: string]: string[] },
   results: IRequestResults = {
     fulfilledValue: {},
     success: false,
@@ -70,23 +70,25 @@ export const processRequestResults = (
   }
 ) => {
   if (responseJson?.statusCode === 400) {
-    results.filteredErrors = errorsFilter(responseJson.message, filter);
+    results.filteredErrors = errorsFilter(
+      responseJson.message as string[],
+      filter
+    );
   } else if (
     responseJson?.statusCode === 404 ||
     responseJson?.statusCode === 401
   ) {
-    results.totalError = responseJson.message;
+    results.totalError = responseJson.message as string;
   } else {
     results.success = true;
-    results.fulfilledValue = responseJson;
+    results.fulfilledValue = responseJson as responseJsonType;
   }
   console.log(results);
 
   return results;
 };
 
-//
-export const resetFieldsValue = (refObj: Ref<object>) => {
+export const resetFieldsValue = (refObj: Ref<{ [key: string]: string }>) => {
   for (const key of Object.keys(refObj.value)) {
     refObj.value[key] = "";
   }

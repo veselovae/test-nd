@@ -4,7 +4,6 @@ import UiButton from "./UiButton.vue";
 
 import { useShowModal } from "@/stores/showModal";
 
-const props = defineProps<{ isNoteModal?: boolean }>();
 const emit = defineEmits(["checkModalComponent"]);
 
 const modal = useShowModal();
@@ -12,8 +11,12 @@ const modal = useShowModal();
 
 <template>
   <div class="modal-wrapper" :class="{ inactive: !modal.showModal }">
-    <div class="modal" :class="{ 'note-modal-wrapper': props.isNoteModal }">
-      <UiButton class="close-btn" @click="emit('checkModalComponent')">
+    <div class="modal">
+      <UiButton
+        class="close-btn"
+        @click="emit('checkModalComponent')"
+        title="Закрыть"
+      >
         <CloseIcon />
       </UiButton>
       <slot />

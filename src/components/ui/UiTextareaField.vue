@@ -24,7 +24,7 @@ const updateValue = (value: string) => emit("update:modelValue", value);
     <textarea
       v-bind="$attrs"
       :value="props.modelValue"
-      @input="updateValue($event.target.value)"
+      @input="updateValue(($event.target as HTMLTextAreaElement).value)"
     />
     <div class="error-and-char">
       <div class="field-error error" v-if="!!props.error?.length">

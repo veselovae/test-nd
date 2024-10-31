@@ -27,7 +27,7 @@ function updateValue(value: string) {
     <input
       v-bind="$attrs"
       :value="props.modelValue"
-      @input="updateValue($event.target?.value)"
+      @input="updateValue(($event.target as HTMLInputElement).value)"
     />
     <div class="error-and-char">
       <div class="field-error error" v-if="props.error?.length">

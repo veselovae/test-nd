@@ -42,7 +42,10 @@ const compliteAuth = async () => {
   logInResults.value = processRequestResults(responseJson, filter);
 
   if (logInResults.value?.fulfilledValue?.accessToken) {
-    setCookie("token", logInResults.value?.fulfilledValue?.accessToken);
+    setCookie(
+      "token",
+      logInResults.value?.fulfilledValue?.accessToken as string
+    );
     showModalStore.toggleShowModal();
     router.push("/notes");
   }

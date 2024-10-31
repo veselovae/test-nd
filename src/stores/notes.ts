@@ -1,14 +1,10 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
 
-interface INote {
-  id: number;
-  title: string;
-  content: string;
-}
+import { type INote } from "@/interfaces/requests";
 
 export const useNotes = defineStore("notes", () => {
-  const notes = ref<INote[] | []>([]);
+  const notes = ref<INote[]>([]);
 
   const addNote = (newNote: INote) => notes.value.push(newNote);
   const deleteNote = (id: number) => {

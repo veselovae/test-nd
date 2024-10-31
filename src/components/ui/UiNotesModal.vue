@@ -11,7 +11,11 @@ const modal = useShowModal();
 <template>
   <div class="modal-wrapper" :class="{ inactive: !modal.showModal }">
     <div class="modal note-modal-wrapper">
-      <UiButton class="close-btn" @click="modal.toggleShowModal">
+      <UiButton
+        class="close-btn"
+        @click="modal.toggleShowModal"
+        title="Закрыть"
+      >
         <CloseIcon />
       </UiButton>
       <AddNoteModal />

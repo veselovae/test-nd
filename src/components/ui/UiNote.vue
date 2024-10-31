@@ -103,6 +103,7 @@ const emit = defineEmits(["deleteNote"]);
 
   .btn-wrapper {
     margin-top: 28px;
+    padding-right: 32px;
     height: 72px;
     text-align: end;
     border: 0;

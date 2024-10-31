@@ -36,7 +36,7 @@ const updateValue = (value: string) => emit("update:modelValue", value);
         placeholder="Введите пароль"
         v-bind="$attrs"
         :value="props.modelValue"
-        @input="updateValue($event.target.value)"
+        @input="updateValue(($event.target as HTMLInputElement).value)"
       />
       <div class="show-password-btn" @click="toggleShowPassword">
         <OnPasswordIcon v-if="showPassword" />

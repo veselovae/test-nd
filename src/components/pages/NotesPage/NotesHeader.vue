@@ -29,7 +29,11 @@ onMounted(() => (isUserMenu.value = false));
 
     <div class="user-box">
       <p class="email">{{ userStore.user }}</p>
-      <div class="user-icon-wrapper" @click="toggleUserMenu">
+      <div
+        class="user-icon-wrapper"
+        @click="toggleUserMenu"
+        title="Пользователь"
+      >
         <UserIcon />
       </div>
       <div class="user-menu" v-show="isUserMenu">
